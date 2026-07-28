@@ -78,16 +78,24 @@ def _load_openai_cls() -> type:
     return _OPENAI_CLS_CACHE
 
 
+DEFAULT_AUX_TIMEOUT = float(os.getenv("HERMES_AUX_TIMEOUT", "30.0"))
+
+
 class _OpenAIProxy:
     """Module-level proxy that looks like the ``openai.OpenAI`` class.
 
     Forwards ``OpenAI(...)`` calls and ``isinstance(x, OpenAI)`` checks to the
-    real SDK class, importing the SDK lazily on first use.
+    real SDK class, importing the SDK lazily on first use. Enforces a default
+    30.0s timeout and 2 max retries to prevent hanging connections.
     """
 
     __slots__ = ()
 
     def __call__(self, *args, **kwargs):
+        if "timeout" not in kwargs:
+            kwargs["timeout"] = DEFAULT_AUX_TIMEOUT
+        if "max_retries" not in kwargs:
+            kwargs["max_retries"] = 2
         return _load_openai_cls()(*args, **kwargs)
 
     def __instancecheck__(self, obj):

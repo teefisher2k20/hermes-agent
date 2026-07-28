@@ -269,9 +269,21 @@ class MemoryStore:
         return bak
 
     def save_to_disk(self, target: str):
-        """Persist entries to the appropriate file. Called after every mutation."""
+        """Persist entries to the appropriate file using AsyncMemoryRouter."""
         get_memory_dir().mkdir(parents=True, exist_ok=True)
-        self._write_file(self._path_for(target), self._entries_for(target))
+        file_path = self._path_for(target)
+        entries = list(self._entries_for(target))
+
+        def _do_file_write():
+            self._write_file(file_path, entries)
+            return {"success": True}
+
+        try:
+            from agent.async_memory_router import async_memory_router
+            async_memory_router.execute_memory_write(inline_file_fn=_do_file_write)
+        except Exception as exc:
+            logger.warning("AsyncMemoryRouter error during save_to_disk, falling back to direct write: %s", exc)
+            self._write_file(file_path, entries)
 
     def _entries_for(self, target: str) -> List[str]:
         if target == "user":
