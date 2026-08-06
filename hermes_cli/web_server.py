@@ -120,6 +120,8 @@ _PUBLIC_API_PATHS: frozenset = frozenset({
     "/api/model/info",
     "/api/dashboard/themes",
     "/api/dashboard/plugins",
+    "/api/mission-control/status",
+    "/api/mission-control/theme",
 })
 
 
@@ -685,6 +687,27 @@ async def get_status():
         "auth_required": auth_required,
         "auth_providers": auth_providers,
     }
+
+
+@app.get("/api/mission-control/status")
+async def get_mission_control_status():
+    from hermes_cli.skin_engine import get_skin_css_dict, get_active_skin
+    skin = get_active_skin()
+    return {
+        "status": "active",
+        "agent": {
+            "name": skin.get_branding("agent_name", "Hermes Agent"),
+            "welcome": skin.get_branding("welcome", ""),
+            "prompt_symbol": skin.get_branding("prompt_symbol", "❯"),
+        },
+        "theme": get_skin_css_dict(),
+    }
+
+
+@app.get("/api/mission-control/theme")
+async def get_mission_control_theme():
+    from hermes_cli.skin_engine import get_skin_css_dict
+    return get_skin_css_dict()
 
 
 # ---------------------------------------------------------------------------

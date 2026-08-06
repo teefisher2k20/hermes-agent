@@ -924,3 +924,21 @@ def get_prompt_toolkit_style_overrides() -> Dict[str, str]:
         "voice-status": f"bg:{voice_bg} {label}",
         "voice-status-recording": f"bg:{voice_bg} {error} bold",
     }
+
+
+def get_skin_css_dict() -> Dict[str, str]:
+    """Return dictionary of CSS custom property tokens for web UI synchronization."""
+    skin = get_active_skin()
+    return {
+        "--hermes-gold": skin.get_color("banner_title", "#FFD700"),
+        "--hermes-bronze": skin.get_color("banner_border", "#CD7F32"),
+        "--hermes-accent": skin.get_color("banner_accent", "#FFBF00"),
+        "--hermes-dim": skin.get_color("banner_dim", "#B8860B"),
+        "--hermes-text": skin.get_color("banner_text", "#FFF8DC"),
+        "--hermes-ui-label": skin.get_color("ui_label", "#DAA520"),
+        "--hermes-bg-dark": skin.get_color("status_bar_bg", "#1a1a2e"),
+        "--hermes-ui-ok": skin.get_color("ui_ok", "#4caf50"),
+        "--hermes-ui-error": skin.get_color("ui_error", "#ef5350"),
+        "--hermes-ui-warn": skin.get_color("ui_warn", "#ffa726"),
+        "--hermes-agent-name": skin.get_branding("agent_name", "Hermes Agent"),
+    }
