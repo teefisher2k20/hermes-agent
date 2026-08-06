@@ -33,8 +33,8 @@ export function execFileNoThrow(
     // keep the parent process alive. No output data is collected in
     // this mode; both stdout and stderr will be empty strings.
     const stdioConfig = options.resolveOnExit
-      ? ['pipe', 'ignore', 'ignore'] as const
-      : 'pipe' as const
+      ? (['pipe', 'ignore', 'ignore'] as ['pipe', 'ignore', 'ignore'])
+      : ('pipe' as const)
 
     const child = spawn(file, args, {
       cwd: options.useCwd ? process.cwd() : undefined,
