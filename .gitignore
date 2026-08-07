@@ -88,3 +88,4 @@ docs/superpowers/*
 .hermes/
 .vercel
 .env*.local
+gradio-env/
