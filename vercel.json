@@ -2,14 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "hermes_cli/web_server.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "hermes_cli/web_server.py"
+      "dest": "api/index.py"
     }
   ]
 }
+

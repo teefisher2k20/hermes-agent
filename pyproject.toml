@@ -276,5 +276,5 @@ select = ["PLW1514"]
 "plugins/**" = ["PLW1514"]
 
 [tool.vercel]
-entrypoint = "hermes_cli/web_server:app"
+entrypoint = "api/index:app"
 
