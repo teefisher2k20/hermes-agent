@@ -28,7 +28,7 @@ if (-not $PythonExe) {
 
 # 1. Register Scheduled Task for AtLogOn
 try {
-    $Action = New-ScheduledTaskAction -Execute $PythonExe -Argument "-m hermes_cli.main dashboard --port $Port --no-open --skip-build" -WorkingDirectory $RepoPath
+    $Action = New-ScheduledTaskAction -Execute $PythonExe -Argument "-m hermes_cli.main dashboard --port $Port --tui --no-open --skip-build" -WorkingDirectory $RepoPath
     $Trigger = New-ScheduledTaskTrigger -AtLogOn
     $Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Hours 0)
 
@@ -43,7 +43,7 @@ $StartupFile = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Sta
 $VbsContent = @"
 Set WshShell = CreateObject("WScript.Shell")
 WshShell.CurrentDirectory = "$RepoPath"
-WshShell.Run "$PythonExe -m hermes_cli.main dashboard --port $Port --no-open --skip-build", 0, False
+WshShell.Run "$PythonExe -m hermes_cli.main dashboard --port $Port --tui --no-open --skip-build", 0, False
 "@
 Set-Content -Path $StartupFile -Value $VbsContent -Encoding UTF8
 Write-Host "Created Startup shortcut at: $StartupFile" -ForegroundColor Green
