@@ -7,7 +7,7 @@ and active skin engine color tokens with the Mission Control UI.
 
 from fastapi import APIRouter
 from hermes_cli.skin_engine import get_skin_css_dict, get_active_skin
-from hermes_cli.kanban_db import KanbanDB
+from hermes_cli.kanban_db import read_board_metadata
 
 router = APIRouter(prefix="/api/plugins/mission-control", tags=["mission-control"])
 
@@ -18,8 +18,10 @@ def get_mission_control_status():
     skin = get_active_skin()
     theme_tokens = get_skin_css_dict()
     
-    kanban_db = KanbanDB()
-    board = kanban_db.get_board() if hasattr(kanban_db, "get_board") else {}
+    try:
+        board = read_board_metadata()
+    except Exception:
+        board = {}
     
     return {
         "status": "active",

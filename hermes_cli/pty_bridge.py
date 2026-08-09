@@ -39,12 +39,21 @@ import termios
 import time
 from typing import Optional, Sequence
 
+_WINPTY_AVAILABLE = False
+winpty = None
+if sys.platform.startswith("win"):
+    try:
+        import winpty  # type: ignore
+        _WINPTY_AVAILABLE = True
+    except ImportError:
+        pass
+
 try:
     import ptyprocess  # type: ignore
-    _PTY_AVAILABLE = not sys.platform.startswith("win")
+    _PTY_AVAILABLE = not sys.platform.startswith("win") or _WINPTY_AVAILABLE
 except ImportError:  # pragma: no cover - dev env without ptyprocess
     ptyprocess = None  # type: ignore
-    _PTY_AVAILABLE = False
+    _PTY_AVAILABLE = _WINPTY_AVAILABLE
 
 
 __all__ = ["PtyBridge", "PtyUnavailableError"]
