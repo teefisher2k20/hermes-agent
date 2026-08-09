@@ -65,6 +65,12 @@ jobs:
           source .venv/bin/activate
           uv pip install -e ".[all,dev]"
 
+      - name: Verify config schema & plugin discovery
+        run: |
+          source .venv/bin/activate
+          python -c "from hermes_cli.config import load_config; load_config()"
+          python -c "from hermes_cli.plugins import discover_plugins; discover_plugins()"
+
       - name: Run tests (slice ${{ matrix.slice }}/6)
         # Per-file isolation via scripts/run_tests_parallel.py: discovers
         # every test_*.py file under tests/ (excluding integration/ + e2e/),
