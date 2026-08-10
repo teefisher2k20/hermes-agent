@@ -6672,3 +6672,15 @@ def latest_summaries(
         ids,
     ).fetchall()
     return {r["task_id"]: r["summary"] for r in rows}
+
+
+class KanbanDB:
+    """Backward compatibility wrapper for legacy plugin imports."""
+    @staticmethod
+    def connect(*args, **kwargs):
+        return connect(*args, **kwargs)
+
+    @staticmethod
+    def read_board_metadata(*args, **kwargs):
+        return read_board_metadata(*args, **kwargs)
+
