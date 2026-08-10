@@ -1,0 +1,12 @@
+{
+  "name": "mission_control",
+  "label": "Mission Control",
+  "description": "Agent Mission Control Dashboard — synchronized agent fleet status, kanban task dispatch, and skin engine color tokens",
+  "icon": "Radio",
+  "version": "1.0.0",
+  "tab": {
+    "path": "/mission-control",
+    "position": "after:kanban"
+  },
+  "api": "plugin_api.py"
+}

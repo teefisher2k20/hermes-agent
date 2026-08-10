@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Hermes Autonomous Browser Agent",
+  "version": "1.0.0",
+  "description": "Perform autonomous AI agent tasks directly inside your active browser tabs without re-logging or complex setup.",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "storage",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:9119/*",
+    "ws://127.0.0.1:9119/*",
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Hermes Agent Controller"
+  }
+}

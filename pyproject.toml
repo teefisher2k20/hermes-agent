@@ -64,6 +64,9 @@ dependencies = [
   # (which is a silent killer on Windows — see CONTRIBUTING.md) and
   # `os.killpg` (which doesn't exist on Windows).
   "psutil==7.2.2",
+  # Web server dependencies for Vercel/serverless runtime builds
+  "fastapi==0.133.1",
+  "uvicorn[standard]==0.41.0",
 ]
 
 [project.optional-dependencies]
@@ -272,3 +275,7 @@ select = ["PLW1514"]
 "skills/**" = ["PLW1514"]
 "optional-skills/**" = ["PLW1514"]
 "plugins/**" = ["PLW1514"]
+
+[tool.vercel]
+entrypoint = "api/index:app"
+
