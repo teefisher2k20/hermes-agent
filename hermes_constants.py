@@ -274,6 +274,38 @@ def secure_parent_dir(path: Path) -> None:
         pass
 
 
+def safe_create_symlink(target: Path, link: Path, target_is_directory: bool = True) -> bool:
+    """Create a symbolic link or non-admin Windows Junction fallback.
+
+    Enables non-administrator accounts across Windows and Unix platforms to create
+    directory links without requiring elevated Administrator privileges (WinError 1314).
+    """
+    target = Path(target)
+    link = Path(link)
+
+    try:
+        link.symlink_to(target, target_is_directory=target_is_directory)
+        return True
+    except (OSError, NotImplementedError):
+        import sys
+        if sys.platform == "win32":
+
+            if target_is_directory or (target.exists() and target.is_dir()):
+                import subprocess
+                cmd = f'cmd /c mklink /J "{link}" "{target}"'
+                res = subprocess.run(cmd, capture_output=True, text=True, shell=True)
+                if res.returncode == 0 and link.exists():
+                    return True
+            else:
+                try:
+                    os.link(target, link)
+                    return True
+                except OSError:
+                    pass
+        raise
+
+
+
 def get_subprocess_home() -> str | None:
     """Return a per-profile HOME directory for subprocesses, or None.
 
