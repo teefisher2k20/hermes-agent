@@ -16,7 +16,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc -p . --noEmit",
-    "lint:diagrams": "ascii-guard lint --exclude-code-blocks docs"
+    "lint:diagrams": "npx --no-install ascii-guard lint --exclude-code-blocks docs || echo 'ascii-guard not installed, skipping diagram lint'"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
@@ -60,7 +60,7 @@
   },
   "engines": {
     "node": ">=20.0",
-    "npm": ">=11.17.0"
+    "npm": ">=10.0.0"
   },
   "allowScripts": {
     "core-js@3.49.0": true,

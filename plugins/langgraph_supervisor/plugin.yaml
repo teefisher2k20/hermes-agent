@@ -1,0 +1,4 @@
+name: langgraph_supervisor
+version: 1.0.0
+description: Multi-Agent Supervisor engine powered by LangGraph state machines and Pydantic structured output routing.
+author: Xennials.tech

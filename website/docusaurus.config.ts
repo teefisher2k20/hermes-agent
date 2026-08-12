@@ -13,12 +13,12 @@ const config: Config = {
   organizationName: 'NousResearch',
   projectName: 'hermes-agent',
 
-  onBrokenLinks: 'warn',
+  onBrokenLinks: process.env.NETLIFY || process.env.CI ? 'throw' : 'warn',
 
   markdown: {
     mermaid: true,
     hooks: {
-      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownLinks: process.env.NETLIFY || process.env.CI ? 'throw' : 'warn',
     },
   },
 

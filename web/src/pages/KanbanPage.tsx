@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Plus, CheckCircle2, Clock, AlertCircle, Play, User, Tag } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@nous-research/ui/ui/components/card";
 import { Button } from "@nous-research/ui/ui/components/button";
 import { Badge } from "@nous-research/ui/ui/components/badge";
-import { Input } from "@/components/ui/input";
+import { Input } from "@nous-research/ui/ui/components/input";
 import { usePageHeader } from "@/contexts/usePageHeader";
 
 export interface KanbanTask {
@@ -126,13 +126,13 @@ export default function KanbanPage() {
             <Input
               placeholder="Task Title (e.g. Run Competitor Absorber for Client B)"
               value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setNewTitle(e.target.value)}
               className="bg-slate-950 border-slate-800 text-slate-100"
             />
             <Input
               placeholder="Assigned Agent (e.g. GrowthAgent)"
               value={newAgent}
-              onChange={(e) => setNewAgent(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setNewAgent(e.target.value)}
               className="w-64 bg-slate-950 border-slate-800 text-slate-100"
             />
             <Button onClick={addTask} className="bg-emerald-600 hover:bg-emerald-500 text-white">

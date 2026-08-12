@@ -1,0 +1,4 @@
+name: gesture_control
+version: 1.0.0
+description: Hand gesture computer mouse control using MediaPipe and PyAutoGUI.
+author: Hermes Community

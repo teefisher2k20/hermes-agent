@@ -1,0 +1,4 @@
+name: obsidian_ingestion
+version: 1.0.0
+description: Incremental LlamaIndex + Qdrant document ingestion pipeline with caching and multiprocessing.
+author: Xennials.tech

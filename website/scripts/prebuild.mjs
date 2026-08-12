@@ -47,14 +47,23 @@ function writeEmptyFallback(reason) {
   );
 }
 
+function getPythonCmd() {
+  for (const cmd of ["python3", "python"]) {
+    const test = spawnSync(cmd, ["--version"], { stdio: "ignore" });
+    if (!test.error && test.status === 0) return cmd;
+  }
+  return "python3";
+}
+
 function runPython(script, label) {
   if (!existsSync(script)) {
     console.warn(`[prebuild] ${label} skipped (script missing)`);
     return false;
   }
-  const r = spawnSync("python3", [script], { stdio: "inherit", cwd: websiteDir });
+  const pythonCmd = getPythonCmd();
+  const r = spawnSync(pythonCmd, [script], { stdio: "inherit", cwd: websiteDir });
   if (r.error && r.error.code === "ENOENT") {
-    console.warn(`[prebuild] ${label} skipped (python3 not found)`);
+    console.warn(`[prebuild] ${label} skipped (${pythonCmd} not found)`);
     return false;
   }
   if (r.status !== 0) {
