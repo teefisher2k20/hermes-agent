@@ -437,8 +437,13 @@ markers = [
     "macos_only: exercises macOS-specific behaviour; skipped on other hosts",
     "windows_only: exercises native-Windows behaviour; skipped on other hosts",
 ]
-# integration tests take way too long to run in the normal CI environments
-addopts = "-m 'not integration'"
+# pytest-timeout: per-test 30s hard cap with thread method (cross-platform, compatible with Windows).
+# This is the fallback inside each per-file pytest subprocess (see
+# scripts/run_tests_parallel.py). Per-file isolation gives every test
+# file a fresh Python interpreter; pytest-timeout catches Python-level
+# hangs within a file.
+addopts = "-m 'not integration' --timeout=30 --timeout-method=thread"
+
 
 [tool.ty.environment]
 python-version = "3.13"

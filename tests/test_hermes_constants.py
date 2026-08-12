@@ -513,10 +513,13 @@ class TestSecureParentDir:
         target = real_dir / "file.json"
         target.touch()
 
-        # Create a symlink with fewer path components
+        # Create a symlink/junction with fewer path components
         link = tmp_path / "link"
-        link.symlink_to(real_dir)
+        from hermes_constants import safe_create_symlink
+        safe_create_symlink(real_dir, link, target_is_directory=True)
         link_target = link / "file.json"
+
+
 
         called_with = []
         monkeypatch.setattr(os, "chmod", lambda p, m: called_with.append((str(p), m)))
